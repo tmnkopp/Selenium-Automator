@@ -1,0 +1,2 @@
+SectionText,MetricXPath,ErrorAttemptExpression,ExpectedError
+S3,"//*[contains(@class, 'qid_3_2_1a')]",( 1.1.1H + 1.1.2H ) + 1 ,should not exceed

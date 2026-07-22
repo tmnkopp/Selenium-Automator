@@ -1,0 +1,77 @@
+﻿[InputDefaults.Global]
+"(ip_address|ipaddress)" = "255.255.255.255"
+"(dateInput|date|date-input)" = "06/01/2025"
+"(CBYesNo|type:radio)" = "Y"
+"(RadRadioButton)" = "Yes"
+"(Port|percent)" = "80"
+
+[InputDefaults."//form[contains(@action, '_CIO_')]"]
+"(CBCioInvGrid)" = "10"
+CBGridMultifactor = "0"
+"qid_1_2_\\d" = "0"
+"qid_2_3_[a-z].*" = "0"
+"3_1_2_a$" = "{1.1.5}"
+"qid_4_1\\s$" = "100"
+"qid_5_[1-4]" = "0"
+"_7_3_2_.*" = "0"
+"(type:radio)" = "Y"
+"(rbATOOnFile)" = "2594"
+"(_10_8_1_.+)" = "0"
+"(qid_3_1_1_\\d_a)" = "{1.1.1H} + {1.1.2H}"
+"(qid_3_1_[1-2]_\\d_[b-z])" = "0"
+"(qid_3_1_2_\\d_a)" = "{1.1.1M} + {1.1.2M}"
+"(qid_3_1_3_\\d_a)" = "{1.1.1L} + {1.1.2L}"
+"(qid_3_1_3_\\d_[b-z])" = "0"
+"qid_1_1_6$" = "{1.1.1T}"
+"qid_1_1_6_[1-3]" = " {1.1.1T}  "
+"qid_1_1_7$" = " {1.1.1T} "
+"qid_1_1_7_1$" = " {1.1.1T} "
+
+[InputDefaults."//form[contains(@id, '_rgInvCIOSystems')]"]
+"(riTextBox)" = "1"
+"(first_Moderate)" = "1"
+"(first_Low)" = "1"
+
+[InputDefaults."//form[contains(@action, '_PQC_')]"]
+"(type:text)" = "Free Text"
+"(Budget)" = "1,000"
+".*Year.*" = "2024"
+"(SoftwarePackageVersions)" = "^$"
+
+[InputDefaults."//form[contains(@action, '_HVA_')]"]
+"(qid_8_1|qid_14_1)" = "12/2024"
+"(qid_15_1)" = "1"
+"(qid_15_2)" = "INC123456789012"
+"(TransRec|ConnectedSystem)" = "R"
+"(Other|AgencyName)" = "Other Other Other Other"
+"(type:radio|CBYesNo|CBYesNo_13|CBYesNo_15)" = "Y"
+"HvaIdInternConnnect|SystemBoundId" = "222222222222"
+"(CBYesNo_8_2)" = "N"
+
+[InputDefaults."//form[contains(@action, '_HVAPOAM_')]"]
+"(ActCompDate)" = ""
+"(SchCompDate|RemediationDate)" = "01/01/2023"
+"(CompletionDate)" = "01/01/2024"
+
+[InputDefaults."//form[contains(@action, '_IG_')]"]
+"(type:radio)" = "Y"
+
+[InputDefaults."//form[contains(@action, '_SAOP_')]"]
+"(type:radio)" = "Y"
+
+[InputDefaults."//form[contains(@action, '_EINSTEIN_')]"]
+"(IPAddress|^IP|IP$|BGPPeerIP)" = "255.255.255.255"
+"(ddlYESNOUNK_1_ddl_Edit)" = "Yes"
+"(ctl03_AsNumber|ctl03_BGPRemoteAsExternalNumber)" = "1"
+"(BGPRoute|ctl03_BGPNetwork|ctl03_NoAdvertised)" = "255.255.255.255/12"
+
+[InputDefaults."//form[contains(@action, 'BOD2201_')]"]
+"(CveCountJustification)" = "^$"
+"(UnremediatedCount)" = "0"
+
+[InputDefaults."//form[contains(@action, '_MFA_')]"]
+"(System.*)" = "\\w\\w\\w\\w\\w"
+
+[InputDefaults."//form[contains(@action, 'SCUBA')]"]
+TenantFQDN = "sandia.gov"
+TenantID = "7ccb5a20-a303-498c-b0c1-29007381b574"

@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "required": [ "MetaData", "Summary", "Raw", "Results" ],
+  "properties": {
+    "MetaData": {
+      "type": "object"
+    },
+    "Summary": {
+      "type": "object"
+    },
+    "Raw": {
+      "type": "object",
+      "properties": {
+        "scuba_config": {
+          "type": "object",
+          "properties": {
+            "OrgName": {
+              "type": "string",
+              "pattern": ".{1,}",
+              "message": {
+                "required": "OrgName is Required Property"
+              }
+            } 
+          },
+          "required": [ "OrgName" ]
+        }
+      },
+      "required": [ "scuba_config" ]
+    },
+    "Results": {
+      "type": "object"
+    }
+  } 
+}

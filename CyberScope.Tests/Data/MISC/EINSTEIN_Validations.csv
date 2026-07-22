@@ -1,0 +1,7 @@
+SectionText,MetricXPath,ErrorAttemptExpression,ExpectedError
+Section 7:,"//*[contains(@class, 'BGPPeerIP')]","09.123.123.123","" 
+Section 7:,"//*[contains(@class, 'BGPPeerIP')]","2001:cdba:0000:0000:0000:0000:3257:9652",""
+Section 7:,"//*[contains(@class, 'BGPPeerIP')]","2001:cdba:0000:0000:0000:0000:3257:9652/12","BGP"
+Section 7:,"//*[contains(@class, 'BGPPeerIP')]","123.123.123/12","BGP"
+Section 7:,"//*[contains(@class, 'BGPPeerIP')]","256.2.3.4","BGP"
+Section 7:,"//*[contains(@class, 'BGPPeerIP')]","^$","BGP"

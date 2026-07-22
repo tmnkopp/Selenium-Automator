@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <!-- Forces Visual Studio's Test Explorer UI to abandon legacy wrappers -->
+  <RunConfiguration>
+    <MaxCpuCount>1</MaxCpuCount>
+    <TargetFrameworkVersion>.NETFramework,Version=v4.8</TargetFrameworkVersion>
+  </RunConfiguration>
+  
+  <LoggerRunSettings>
+    <Loggers>
+      <Logger friendlyName="console" enabled="True" />
+    </Loggers>
+  </LoggerRunSettings>
+
+  <!-- Tells the xUnit Engine explicitly how to map the background assembly thread -->
+  <Xunit>
+    <AppDomain>Required</AppDomain>
+    <ShadowCopy>false</ShadowCopy>
+  </Xunit>
+</RunSettings>
