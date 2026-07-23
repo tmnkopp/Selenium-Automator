@@ -17,6 +17,7 @@ using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager.Helpers;
 using Xunit;
+using static CyberScope.Automator.CsDriverService;
 
 namespace CyberScope.Tests.Selenium
 {
@@ -61,7 +62,10 @@ namespace CyberScope.Tests.Selenium
         {
             using (var session = new CyberScopeSession(_logger))
             {
+                session.Context.userContext = UserContext.Agency;
                 session.Connect();
+                session.ToTab("SAOP");
+
                 // Add your test logic here
             }
         }
@@ -95,6 +99,26 @@ namespace CyberScope.Tests.Selenium
     }
     public static class CyberScopeSessionExtensions
     {
+
+        public static CyberScopeSession InitSections(this CyberScopeSession session, Func<DataCallSection, bool> SectionGroupPredicate)
+        {
+            IElementValueProvider oElementValueProvider = (IElementValueProvider)Activator.CreateInstance(session.getElementValueProviderType());
+            var sectionsFiltered = session.Sections().Where(SectionGroupPredicate).ToList();
+            foreach (DataCallSection section in sectionsFiltered)
+            {
+                session.ToSection(section);
+
+                var controls = session.PageControlCollection().EmptyIfNull();
+
+                foreach (IAutomator control in controls)
+                {
+                    ((IAutomator)control).Automate();
+                    session.Context.RefreshDefaults(oElementValueProvider);
+                }
+                 
+            }
+            return session;
+        }
         public static BaseBrowserSession ToSection(this CyberScopeSession session, DataCallSection Section)
         {
             SelectElement se = new SelectElement(session.Driver.FindElement(By.CssSelector("*[id*='_ddl_Sections']")));
@@ -224,7 +248,19 @@ namespace CyberScope.Tests.Selenium
             session.Context.Logger.Warning($"FismaForm InValid");
             return false;
         }
-        public static Type _getElementValueProviderType(this CyberScopeSession session)
+
+    }
+    public static class NextGenSessionExtensions
+    { 
+        public static NextGenSession Connect(this NextGenSession session)
+        {
+            session.Driver.Navigate().GoToUrl("http://localhost:8081/"); // Replace with your actual URL
+            return session;
+        } 
+    }
+    public static class BaseBrowserSessionExtensions
+    {
+        public static Type getElementValueProviderType(this CyberScopeSession session)
         {
             var assms = AppDomain.CurrentDomain.GetAssemblies();
             var ElementValueProviders = (from assm in assms
@@ -247,17 +283,43 @@ namespace CyberScope.Tests.Selenium
             });
             return answerProvider;
         }
-    }
-    public static class NextGenSessionExtensions
-    { 
-        public static NextGenSession Connect(this NextGenSession session)
+        public static IEnumerable<IAutomator> PageControlCollection(this CyberScopeSession session)
         {
-            session.Driver.Navigate().GoToUrl("http://localhost:8081/"); // Replace with your actual URL
-            return session;
-        } 
-    }
-    public static class BaseBrowserSessionExtensions
-    {
+            var automators = new List<IAutomator>();
+            var driver = session.Driver;
+            var controlLocators = SettingsProvider.ControlLocators.EmptyIfNull();
+
+            foreach (ControlLocator controlLocator in controlLocators)
+            {
+                bool isExcluded = false;
+                foreach (var exclude in controlLocator.Exclude)
+                {
+                    isExcluded = (from e in driver.FindElements(By.XPath($"{exclude}")) select e).FirstOrDefault() != null;
+                    if (isExcluded) continue;
+                }
+                if (isExcluded) continue;
+
+                var eles = (from e in driver.FindElements(By.XPath($"{controlLocator.Locator}"))
+                            where e.Displayed == true && e.Enabled == true
+                            select e).ToList();
+                if (eles.Count > 0)
+                {
+                    var type = Assm.GetTypes().Where(t => t.Name == controlLocator.Type).FirstOrDefault();
+                    var exists = (from a in automators where a.GetType().Name == type.Name select a).ToList().Count > 0;
+                    if (exists) continue;
+
+                    string ValueSetterType = (!string.IsNullOrWhiteSpace(controlLocator.ValueSetterTypes)) ? controlLocator.ValueSetterTypes : ".*";
+
+                    // Constructor injection of SessionContext
+                    IAutomator obj = (IAutomator)Activator.CreateInstance(Type.GetType($"{type.FullName}"), session);
+                    obj.ContainerSelector = $" #{session.GetElementIDByXpath(controlLocator.Selector)} ";
+                    obj.Overwrite = controlLocator.Overwrite;
+                    automators.Add(obj);
+                    session.Context.Logger.Information("{@controlLocator}", new { controlLocator });
+                }
+            }
+            return automators;
+        }
         public static string GetElementIDByXpath(this BaseBrowserSession session, string XPathSelector)
         { 
             var elements = session.Driver.FindElements(By.XPath(XPathSelector));
@@ -325,6 +387,9 @@ namespace CyberScope.Tests.Selenium
             var driver = new ChromeDriver(service, options);
             ApplyWindowSettings(driver, options);
 
+            driver.Manage().Cookies.DeleteCookieNamed("_selenium");
+            var cookie = new Cookie("_selenium", DateTime.Today.ToString());
+            driver.Manage().Cookies.AddCookie(cookie);
             return driver;
         }
 
