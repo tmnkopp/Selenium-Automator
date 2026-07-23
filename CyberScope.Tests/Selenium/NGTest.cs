@@ -44,8 +44,7 @@ namespace CyberScope.Tests.Selenium
                 var automator = new NaiveAutomator(session.Context);
                 automator.OnPostAutomate += (sender, e) =>
                 {
-                    Console.WriteLine("Automation finished. Press ENTER in the console to close the browser...");
-                    Console.ReadLine();
+                    Thread.Sleep(5000);
                 };
                 try
                 {

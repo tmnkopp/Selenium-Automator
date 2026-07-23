@@ -5,6 +5,7 @@ using Xunit;
 using System.Text.RegularExpressions;
 using OpenQA.Selenium;
 using System;
+using OpenQA.Selenium.Support.UI;
 
 namespace CyberScope.Tests.Selenium
 {
@@ -50,9 +51,11 @@ namespace CyberScope.Tests.Selenium
         { 
             _logger.Information("ValidateFismaForm: {o}", new { Tab });
             var driver = ds.CsConnect(UserContext.Agency).ToTab(Tab).Driver;
-            var validates = ds.FismaFormValidates();
-            Assert.True(validates); 
-            if(validates) _logger.Information("FismaFormValidated {o}", new { Tab });
+
+            ds.ToSection(-1);
+            var elements = new WebDriverWait(ds.Driver, TimeSpan.FromSeconds(5))
+            .Until(dvr => dvr.FindElements(By.CssSelector("#ctl00_ContentPlaceHolder1_lblSuccessInfo")));
+            Assert.True(elements.Count > 0, $"FISMA Form Validation Failed for Tab: {Tab}"); 
             ds.DisposeDriverService(); 
         }
  

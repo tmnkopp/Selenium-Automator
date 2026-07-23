@@ -290,7 +290,7 @@
     <Compile Include="Connectors\JiraConnector.cs" />
     <Compile Include="Connectors\StageConnector.cs" />
     <Compile Include="ControlAutomators\AutomatorEventArgs.cs" />
-    <Compile Include="ControlAutomators\BaseAutomator.cs" />
+    <Compile Include="ControlAutomators\ControlAutomator.cs" />
     <Compile Include="ControlAutomators\ImportableDataGrid.cs" />
     <Compile Include="ControlAutomators\InvGrid.cs" />
     <Compile Include="ControlAutomators\MultiHeader.cs" />
@@ -299,13 +299,14 @@
     <Compile Include="ControlAutomators\WorkForceGrid.cs" />
     <Compile Include="ControlAutomators\RadGridForm.cs" />
     <Compile Include="ControlAutomators\ServicesGrid.cs" />
-    <Compile Include="ControlAutomators\SessionContext.cs" />
+    <Compile Include="Context\SessionContext.cs" />
     <Compile Include="ControlAutomators\SystemsGrid.cs" />
     <Compile Include="DataAttribute\CsvInitializeAttemptMapping.cs" />
     <Compile Include="DataAttribute\CsvValidationAttemptMapping.cs" />
     <Compile Include="DataAttribute\InitializeAttemptMapper.cs" />
     <Compile Include="DataAttribute\ValidationAttemptMapper.cs" />
     <Compile Include="Extensions\SessionContextExtensions.cs" />
+    <Compile Include="Factories\AutomatorFactory.cs" />
     <Compile Include="Models\ElementValueMap.cs" />
     <Compile Include="Models\DataCallSection.cs" />
     <Compile Include="Models\InitializeAttempt.cs" />

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CyberScope.Automator
 {
-    internal class MultiHeader : BaseAutomator, IAutomator
+    public class MultiHeader : ControlAutomator 
     {
         #region PROPS
         private List<string> rowIds;
@@ -23,7 +23,7 @@ namespace CyberScope.Automator
          
         #endregion
         
-        public virtual void Automate()
+        public override void Automate()
         {
             // Refresh defaults at the start of automation
             RefreshDefaults();
@@ -60,16 +60,7 @@ namespace CyberScope.Automator
                         sessionContext.Logger.Error($"element not interactable {id} ");
                     else
                         throw new Exception($"{id} {ex.Message} {ex.InnerException}");
-                }
-
-                var e = new AutomatorEventArgs(sessionContext);
-                 
-                if (driver.FindElements(By.XPath(SettingsProvider.appSettings[$"ErrorXPath"])).Count > 0)
-                    FormError(e);
-                FormSubmitted(e);
-
-                if (this.AutomatorState == AutomatorState.AutomationComplete)
-                    break;
+                }   
             }
             
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(.01);

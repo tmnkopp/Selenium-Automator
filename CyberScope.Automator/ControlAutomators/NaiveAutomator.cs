@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace CyberScope.Automator 
 {
 
-    public class NaiveAutomator : BaseAutomator, IAutomator
+    public class NaiveAutomator : ControlAutomator 
     {
         #region PROPS  
         private Random _random = new Random();
@@ -25,15 +25,8 @@ namespace CyberScope.Automator
         #endregion
 
         #region METHODS
-        public async Task AutomateAsync()
-        {
-            await Task.Run(() =>
-            {
-                this.Automate();
-            });
-        }
-         
-        public virtual void Automate()
+  
+        public override void Automate()
         { 
             var args = new AutomatorEventArgs(sessionContext);
             PreAutomate(args);

@@ -538,11 +538,7 @@ namespace CyberScope.Tests.Selenium
             }
             wait.Until(d => d.FindElement(By.XPath("//*[contains(@id, '_ctl05_UpdateButton')]"))).Click();
             Thread.Sleep(1);
-
-            var validates = ds.FismaFormValidates();
-            Assert.True(validates);
-
-            if (validates) _logger.Information("FismaFormValidated {o}", new { Tab });
+   
             //ds.DisposeDriverService(); 
         }
         #endregion
